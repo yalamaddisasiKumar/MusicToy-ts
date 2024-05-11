@@ -44,7 +44,7 @@ import { SynthInput, SynthNode, SynthOutput } from "./synth";
     input: SynthInput<Overdrive>;
 export class Overdrive extends SynthNode implements IO<(InputLabel | OutputLabel) , SynthOutput<Overdrive> | SynthInput<Overdrive>> {
     processEvent(evt: NoteOnEvt | NoteOffEvt, time: number): void {
-        throw new Error("Method not implemented.");
+        // throw new Error("Method not implemented.");
     }
     name: string;
     gain: number;

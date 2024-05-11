@@ -42,7 +42,7 @@ import { SynthInput, SynthNode, SynthOutput } from "./synth";
 */
 export class Mixer extends SynthNode implements IO<IOLabel, SynthInput<Mixer> | SynthOutput<Mixer>>{
     processEvent(evt: NoteOnEvt | NoteOffEvt, time: number): void {
-        throw new Error("Method not implemented.");
+        // throw new Error("Method not implemented.");
     }
     numChans: number;
     inVolume: Float64Array;
