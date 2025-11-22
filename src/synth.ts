@@ -65,7 +65,7 @@ export class SynthOutput<N extends IO<OutputLabel,SynthOutput<N>>>{
         this.dsts = [];
     
         // Allocate the output buffers
-        for (var i = 0; i < numChans; ++i)
+        for (let i = 0; i < numChans; ++i)
             this.buffers[i] = new Float64Array(SYNTH_BUF_SIZE);
     
         // Create a field in the parent node for this output
@@ -321,18 +321,18 @@ export class SynthNet{
         console.log('Computing node ordering');
 
         // Set of nodes with no outgoing edges
-        var S = [];
+        const S: any[] = [];
 
         // List sorted in reverse topological order
-        var L = [];
+        const L: any[] = [];
 
         // Total count of input edges
-        var numEdges = 0;
+        let numEdges = 0;
 
         // For each graph node
-        for (var i = 0; i < this.nodes.length; ++i)
+        for (let i = 0; i < this.nodes.length; ++i)
         {
-            var node = this.nodes[i];
+            const node = this.nodes[i];
 
             //console.log('Graph node: ' + node.name);
 
@@ -344,7 +344,7 @@ export class SynthNet{
             {
                 if (node[k] instanceof SynthInput)
                 {
-                    var synthIn = node[k];
+                    const synthIn = node[k];
 
                     //console.log('Input port: ' + synthIn.name);
                     //console.log(synthIn.src);
@@ -369,7 +369,7 @@ export class SynthNet{
         // While S not empty
         while (S.length > 0)
         {
-            var node = S.pop();
+            const node = S.pop();
 
             console.log('Graph node: ' + node.name);
 
@@ -380,17 +380,17 @@ export class SynthNet{
             {
                 if (node[k] instanceof SynthOutput)
                 {
-                    var synthOut = node[k];
+                    const synthOut = node[k];
 
                     // For each destination of this port
-                    for (var i = 0; i < synthOut.dsts.length; ++i)
+                    for (let i = 0; i < synthOut.dsts.length; ++i)
                     {
-                        var dstIn = synthOut.dsts[i];
-                        var dstNode = dstIn.node;
+                        const dstIn = synthOut.dsts[i];
+                        const dstNode = dstIn.node;
 
                         //console.log('dst: ' + dstNode.name);
 
-                        var idx = dstNode.inEdges.indexOf(synthOut);
+                        const idx = dstNode.inEdges.indexOf(synthOut);
 
                         assert (
                             idx !== -1,

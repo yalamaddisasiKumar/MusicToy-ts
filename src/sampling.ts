@@ -60,40 +60,27 @@ export class Sample{
         this.buffer = undefined;
     
         console.log('loading sample "' + url + '"');
-    
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", url, true);
-        xhr.responseType = "arraybuffer";
-    
-        var that = this;
-        xhr.onload = function() 
-        {
-            try
-            {
-                context.audioCtx.decodeAudioData(
-                    xhr.response,
-                    function (audioBuffer)
-                    {
-                        var f32buffer = audioBuffer.getChannelData(0);
-                        var f64buffer = new Float64Array(f32buffer.length);
-                        for (var i = 0; i < f32buffer.length; ++i)
-                            f64buffer[i] = f32buffer[i];
-    
-                        that.buffer = f64buffer;
-                    }
-                );
-            }
-    
-            catch (e: any)
-            {
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.arrayBuffer();
+            })
+            .then(arrayBuffer => context.audioCtx.decodeAudioData(arrayBuffer))
+            .then(audioBuffer => {
+                const f32buffer = audioBuffer.getChannelData(0);
+                const f64buffer = new Float64Array(f32buffer.length);
+                for (let i = 0; i < f32buffer.length; ++i)
+                    f64buffer[i] = f32buffer[i];
+
+                this.buffer = f64buffer;
+            })
+            .catch(e => {
                 console.error('failed to load "' + url + '"');
                 console.error(e.toString());
-            }
-    
-            //console.log('loaded sample "' + url + '" (' + that.buffer.length + ')');
-        };
-    
-        xhr.send();
+            });
     }
 }
 
