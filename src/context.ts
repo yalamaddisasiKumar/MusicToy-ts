@@ -32,25 +32,25 @@ function getContext() {
     // if (audioCtx !== undefined)
     //     {
             // Get the sample rate for the audio context
-            var sampleRate = audioCtx.sampleRate;
+            const sampleRate = audioCtx.sampleRate;
     
             console.log('Sample rate: ' + audioCtx.sampleRate);
     
             // Size of the audio generation buffer
-            var bufferSize = 2048;
+            const bufferSize = 2048;
         // }
     
     // // Create a synthesis network
-    // var synthNet = new SynthNet(audioCtx.sampleRate);
+    // const synthNet = new SynthNet(audioCtx.sampleRate);
 
     // // Create a piece
-    var piece: Piece | undefined = undefined;
+    let piece: Piece | undefined = undefined;
 
     // // Initialize the synth network
     // initSynth(synthNet, piece);
 
     // // Create an audio generation event handler
-    var genAudio = (event: any)=>{} ;
+    let genAudio = (event: any)=>{} ;
 
     // JS audio node to produce audio output
     let jsAudioNode : ScriptProcessorNode | undefined = undefined;
@@ -119,17 +119,17 @@ export default function start(){
        context = ctx;
 
         // Create a synthesis network
-        var synthNet = new SynthNet(context.audioCtx.sampleRate);
+        const synthNet = new SynthNet(context.audioCtx.sampleRate);
 
         // Create a piece
-        var piece: Piece = new Piece(synthNet);
+        const piece: Piece = new Piece(synthNet);
 
         
         // Initialize the synth network
         initSynth(synthNet, piece);
     
         // Create an audio generation event handler
-        var genAudio = piece.makeHandler();
+        const genAudio = piece.makeHandler();
 
         (context.piece as unknown as Piece) = piece;
         context.genAudio = genAudio;

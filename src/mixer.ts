@@ -88,7 +88,7 @@ export class Mixer extends SynthNode implements IO<IOLabel, SynthInput<Mixer> | 
         this.inputs = new Array(numInputs);
     
         // For each input
-        for (var i = 0; i < numInputs; ++i)
+        for (let i = 0; i < numInputs; ++i)
         {
             // Initialize the volume to 1
             this.inVolume[i] = 1;
@@ -115,8 +115,8 @@ export class Mixer extends SynthNode implements IO<IOLabel, SynthInput<Mixer> | 
     update(time?: number, sampleRate?: number)
     {
         // Count the number of inputs having produced data
-        var actCount = 0;
-        for (var inIdx = 0; inIdx < this.inputs.length; ++inIdx)
+        let actCount = 0;
+        for (let inIdx = 0; inIdx < this.inputs.length; ++inIdx)
             if (this.inputs[inIdx].hasData() === true)
                 ++actCount;
     
@@ -125,39 +125,39 @@ export class Mixer extends SynthNode implements IO<IOLabel, SynthInput<Mixer> | 
             return;
     
         // Initialize the output to 0
-        for (var chIdx = 0; chIdx < this.numChans; ++chIdx)
+        for (let chIdx = 0; chIdx < this.numChans; ++chIdx)
         {
-            var outBuf = this.output.getBuffer(chIdx);
-            for (var i = 0; i < outBuf.length; ++i)
+            const outBuf = this.output.getBuffer(chIdx);
+            for (let i = 0; i < outBuf.length; ++i)
                 outBuf[i] = 0;
         }
     
         // For each input
-        for (var inIdx = 0; inIdx < this.inputs.length; ++inIdx)
+        for (let inIdx = 0; inIdx < this.inputs.length; ++inIdx)
         {
             // Get the input
-            var input = this.inputs[inIdx];
+            const input = this.inputs[inIdx];
     
             // If this input has no available data, skip it
             if (input.hasData() === false)
                 continue;
     
             // For each channel
-            for (var chIdx = 0; chIdx < this.numChans; ++chIdx)
+            for (let chIdx = 0; chIdx < this.numChans; ++chIdx)
             {
                 // Get the input buffer
-                var inBuf = input.getBuffer(chIdx);
+                const inBuf = input.getBuffer(chIdx);
     
                 // Get the volume for this input
-                var inVolume = this.inVolume[inIdx];
+                let inVolume = this.inVolume[inIdx];
     
                 // Get the output buffer
-                var outBuf = this.output.getBuffer(chIdx);
+                const outBuf = this.output.getBuffer(chIdx);
     
                 // If we are operating in stereo
                 if (this.numChans === 2)
                 {
-                    var inPanning = this.inPanning[inIdx];
+                    const inPanning = this.inPanning[inIdx];
     
                     // Scale the channel volumes based on the panning level
                     if (chIdx === 0)
@@ -167,16 +167,16 @@ export class Mixer extends SynthNode implements IO<IOLabel, SynthInput<Mixer> | 
                 }
     
                 // Scale the input and add it to the output
-                for (var i = 0; i < inBuf.length; ++i)
+                for (let i = 0; i < inBuf.length; ++i)
                     outBuf[i] += inBuf[i] * inVolume;
             }
         }
     
         // Scale the output according to the output volume
-        for (var chIdx = 0; chIdx < this.numChans; ++chIdx)
+        for (let chIdx = 0; chIdx < this.numChans; ++chIdx)
         {
-            var outBuf = this.output.getBuffer(chIdx);
-            for (var i = 0; i < outBuf.length; ++i)
+            const outBuf = this.output.getBuffer(chIdx);
+            for (let i = 0; i < outBuf.length; ++i)
                 outBuf[i] *= this.outVolume;
         }
     }
